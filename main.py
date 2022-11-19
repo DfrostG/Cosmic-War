@@ -35,45 +35,30 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 FPS = 60
 pygame.display.set_caption("Cosmic war")
 
-ENEMY_SMALL = pygame.transform.scale(
-    pygame.image.load("spritesheets/small1.png"), (20, 30))
-ENEMY_MEDIUM = pygame.transform.scale(
-    pygame.image.load("spritesheets/medium1.png"), (50, 32))
-ENEMY_BIG = pygame.transform.scale(
-    pygame.image.load("spritesheets/big1.png"), (70, 80))
+ENEMY_SMALL = pygame.transform.scale(pygame.image.load("spritesheets/small1.png"), (20, 30))
+ENEMY_MEDIUM = pygame.transform.scale(pygame.image.load("spritesheets/medium1.png"), (50, 32))
+ENEMY_BIG = pygame.transform.scale(pygame.image.load("spritesheets/big1.png"), (70, 80))
 
+PLAYER_SHIP = pygame.transform.scale(pygame.image.load("spritesheets/ship1.png"), (45, 65))
+RAINBOW_PLAYER = pygame.transform.scale(pygame.image.load("spritesheets/rainbowship.png"), (38, 65))
 
-PLAYER_SHIP = pygame.image.load(os.path.join("spritesheets", "ship1.png"))
-PLAYER_SHIP1 = pygame.transform.scale(
-    PLAYER_SHIP, (PLAYER_SHIP.get_width() * 2.5, PLAYER_SHIP.get_height() * 2.5))
-
-
-LASER_PLAYER = pygame.transform.scale(
-    pygame.image.load("spritesheets/laser-player1.png"), (20, 25))
+LASER_PLAYER = pygame.transform.scale(pygame.image.load("spritesheets/laser-player1.png"), (20, 25))
 
 LASER_ENEMY1 = pygame.transform.scale(pygame.image.load("spritesheets/laser-enemy.png"), (5, 10))
-LASER_ENEMY2 = pygame.transform.scale(
-    pygame.image.load("spritesheets/laser-enemy.png"), (10, 15))
-LASER_ENEMY3 = pygame.transform.scale(
-    pygame.image.load("spritesheets/laser-enemy.png"), (20, 25))
+LASER_ENEMY2 = pygame.transform.scale(pygame.image.load("spritesheets/laser-enemy.png"), (10, 15))
+LASER_ENEMY3 = pygame.transform.scale(pygame.image.load("spritesheets/laser-enemy.png"), (20, 25))
 
-BG = pygame.transform.scale(pygame.image.load(
-    os.path.join("backgrounds", "space.png")), (WIDTH, HEIGHT))
+BG = pygame.transform.scale(pygame.image.load(os.path.join("backgrounds", "space.png")), (WIDTH, HEIGHT))
 
-HEAL = pygame.transform.scale(
-    pygame.image.load("itch/pngs/heal.png"), (30, 30))
+HEAL = pygame.transform.scale(pygame.image.load("itch/pngs/heal.png"), (30, 30))
 
-RAPID = pygame.transform.scale(
-    pygame.image.load("itch/Hex/slice37.png"), (30, 30))
+RAPID = pygame.transform.scale(pygame.image.load("itch/Hex/slice37.png"), (30, 30))
 
-WATERWAY = pygame.transform.scale(
-    pygame.image.load("itch/PNG/1.png"), (30, 30))
+WATERWAY = pygame.transform.scale(pygame.image.load("itch/PNG/1.png"), (30, 30))
 
-LIVE_UP = pygame.transform.scale(
-    pygame.image.load("itch/pngs/lives.png"), (30, 30))
+LIVE_UP = pygame.transform.scale(pygame.image.load("itch/pngs/lives.png"), (30, 30))
 
-STAR = pygame.transform.scale(
-    pygame.image.load("itch/pngs/star.png"), (30, 30))
+STAR = pygame.transform.scale(pygame.image.load("itch/pngs/star.png"), (30, 30))
 
 player_score = 0
 
@@ -163,7 +148,7 @@ class Ship:
 class Player(Ship):
     def __init__(self, x, y, health=100):
         super().__init__(x, y, health)
-        self.ship_img = PLAYER_SHIP1
+        self.ship_img = PLAYER_SHIP
         self.laser_img = LASER_PLAYER
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
@@ -194,10 +179,8 @@ class Player(Ship):
         self.healthbar(window)
 
     def healthbar(self, window):
-        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y +
-                         self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
-        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.ship_img.get_height() +
-                         10, self.ship_img.get_width() * (self.health/self.max_health), 10))
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width() * (self.health/self.max_health), 10))
 
 
 class Enemy(Ship):
@@ -592,11 +575,13 @@ def main():
             
             currenttime += timepass
             startime = currenttime - starcooldown
+            player.ship_img = RAINBOW_PLAYER
             if startime > 5000:
                 get_star = False
                 currenttime = 0
                 startime = 0
                 starcooldown = 0
+                player.ship_img = PLAYER_SHIP
 
 def scoreName():
     global player_score
