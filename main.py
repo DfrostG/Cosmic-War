@@ -40,7 +40,7 @@ ENEMY_MEDIUM = pygame.transform.scale(pygame.image.load("spritesheets/medium1.pn
 ENEMY_BIG = pygame.transform.scale(pygame.image.load("spritesheets/big1.png"), (70, 80))
 
 PLAYER_SHIP = pygame.transform.scale(pygame.image.load("spritesheets/ship1.png"), (45, 65))
-RAINBOW_PLAYER = pygame.transform.scale(pygame.image.load("spritesheets/rainbowship.png"), (38, 65))
+RAINBOW_PLAYER = pygame.transform.scale(pygame.image.load("spritesheets/rainbowship.png"), (45, 65))
 
 LASER_PLAYER = pygame.transform.scale(pygame.image.load("spritesheets/laser-player1.png"), (20, 25))
 
@@ -593,10 +593,10 @@ def scoreName():
     while True:
         screen.blit(BG, (0, 0))
         
-        GameOver = get_font(60).render("Game Over", True, "White")
+        GameOver = get_font(60).render("You Lost!!", True, "White")
         screen.blit(GameOver, (130,100))
 
-        EnterName = get_font(40).render("Please Enter your name", True, "White")
+        EnterName = get_font(40).render("Please enter your name", True, "White")
         screen.blit(EnterName, (80,200))
 
         PLAYERSCORE = main_font.render(f"PlayerScore:{playername,player_score}", 1, (255,255,255))
@@ -653,7 +653,7 @@ def updatescore():
 
         screen.blit(BG, (0, 0))
 
-        UPDATESCORE_TEXT = get_font(70).render("Leaderboard", True, "#FFD700")
+        UPDATESCORE_TEXT = get_font(70).render("Scoreboard", True, "#FFD700")
         UPDATESCORE_RECT = UPDATESCORE_TEXT.get_rect(center = (300, 100))
         screen.blit(UPDATESCORE_TEXT, UPDATESCORE_RECT)
 
