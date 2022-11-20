@@ -10,7 +10,7 @@ mixer.init()
 
 pygame.mixer.music.load("Audio/spaceshoot.mp3")
 pygame.mixer.music.play(-1, 0.0, 5000)
-pygame.mixer.music.set_volume(0.06)
+pygame.mixer.music.set_volume(0.05)
 
 laser_fx = pygame.mixer.Sound("Audio/Laser_Shoot2.wav")
 laser_fx.set_volume(0.01)
@@ -22,9 +22,9 @@ getstar_fx.set_volume(0.3)
 getHL_fx = pygame.mixer.Sound("Audio/get_HL.wav")
 getHL_fx.set_volume(0.1)
 
-#get rapid and waterway
-getRW_fx = pygame.mixer.Sound("Audio/get_RW.wav")
-getRW_fx.set_volume(0.1)
+#get rapid and beam
+getRB_fx = pygame.mixer.Sound("Audio/get_RW.wav")
+getRB_fx.set_volume(0.1)
 
 import json
 from operator import itemgetter
@@ -54,7 +54,7 @@ HEAL = pygame.transform.scale(pygame.image.load("itch/pngs/heal.png"), (30, 30))
 
 RAPID = pygame.transform.scale(pygame.image.load("itch/Hex/slice37.png"), (30, 30))
 
-WATERWAY = pygame.transform.scale(pygame.image.load("itch/PNG/1.png"), (30, 30))
+BEAM = pygame.transform.scale(pygame.image.load("itch/PNG/1.png"), (30, 30))
 
 LIVE_UP = pygame.transform.scale(pygame.image.load("itch/pngs/lives.png"), (30, 30))
 
@@ -258,12 +258,12 @@ class Rapid:
         return collide(self, player)
 
 
-class Waterway:
+class Beam:
     ITEM_MAP = {
-        "waterway": WATERWAY,
+        "beam": BEAM,
     }
 
-    def __init__(self, x, y, item="waterway"):
+    def __init__(self, x, y, item="beam"):
         self.x = x
         self.y = y
         self.ship_img = self.ITEM_MAP[item]
@@ -371,10 +371,10 @@ class Button():
 
 
 def get_font(size):
-    return pygame.font.SysFont("leelawadeeuisemilight", size)
+    return pygame.font.SysFont("impact", size)
 
-main_font = pygame.font.SysFont("leelawadeeuisemilight", 50)
-lost_font = pygame.font.SysFont("leelawadeeuisemilight", 60)
+main_font = pygame.font.SysFont("impact", 50)
+lost_font = pygame.font.SysFont("impact", 60)
 
 def main():
     run = True
@@ -384,13 +384,11 @@ def main():
     level = 0
     lives = 5
 
-    
-
     enemies = []
 
     heals = []
     rapids = []
-    waterways = []
+    beams = []
     liveUp = []
     stars = []
 
@@ -429,8 +427,8 @@ def main():
         for Rapid in rapids:
             Rapid.draw(screen)
 
-        for Waterway in waterways:
-            Waterway.draw(screen)
+        for Beam in beams:
+            Beam.draw(screen)
 
         for LiveUp in liveUp:
             LiveUp.draw(screen)
@@ -439,10 +437,6 @@ def main():
             Star.draw(screen)
 
         player.draw(screen)
-
-        if lost:
-            lost_label = lost_font.render("You Lost!!", 1, (255, 255, 255))
-            screen.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350))
 
         pygame.display.update()
 
@@ -477,8 +471,8 @@ def main():
             rapids.append(rapid)
             player.cool_down_counter = 10
 
-            waterway = Waterway(random.randrange(0, WIDTH - 50), random.randrange(-800, -50))
-            waterways.append(waterway)
+            beam = Beam(random.randrange(0, WIDTH - 50), random.randrange(-800, -50))
+            beams.append(beam)
 
             live_Up = LiveUp(random.randrange(0, WIDTH - 50),random.randrange(-800, -50))
             liveUp.append(live_Up)
@@ -521,7 +515,6 @@ def main():
                 else:
                     player.health += 0
                     player.Playerscore += enemy.value
-                
                 enemies.remove(enemy)
             elif enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
@@ -544,17 +537,17 @@ def main():
 
         for rapid in rapids:
             if collide(rapid, player):
-                getRW_fx.play()
+                getRB_fx.play()
                 player.firerate = 2.5
                 player.start_rapid_timer = pygame.time.get_ticks()
                 rapids.remove(rapid)
 
-        for waterway in waterways:
-            if collide(waterway, player):
-                getRW_fx.play()
+        for beam in beams:
+            if collide(beam, player):
+                getRB_fx.play()
                 player.firerate = 3
                 player.start_rapid_timer = pygame.time.get_ticks()
-                waterways.remove(waterway)
+                beams.remove(beam)
 
         for live_Up in liveUp:
             if collide(live_Up, player):
